@@ -28,6 +28,8 @@ void arcfour_key_setup(BYTE state[], const BYTE key[], int len)
 	}
 }
 
+// This does not hold state between calls. It always generates the
+// stream starting from the first  output byte.
 void arcfour_generate_stream(BYTE state[], BYTE out[], size_t len)
 {
 	int i, j;
