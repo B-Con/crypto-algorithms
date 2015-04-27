@@ -55,7 +55,7 @@ int sha256_test()
 
 int main()
 {
-	printf("SHA-256 tests: %s\n", sha256_test() ? "SUCCEEDED" : "FAILEd");
+	printf("SHA-256 tests: %s\n", sha256_test() ? "SUCCEEDED" : "FAILED");
 
 	return(0);
 }
