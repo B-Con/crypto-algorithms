@@ -32,11 +32,12 @@ void arcfour_key_setup(BYTE state[], const BYTE key[], int len)
 // stream starting from the first  output byte.
 void arcfour_generate_stream(BYTE state[], BYTE out[], size_t len)
 {
-	int i, j;
+	int i = 0;
+	int j = 0;
 	size_t idx;
 	BYTE t;
 
-	for (idx = 0, i = 0, j = 0; idx < len; ++idx)  {
+	for (idx = 0; idx < len; ++idx)  {
 		i = (i + 1) % 256;
 		j = (j + state[i]) % 256;
 		t = state[i];
