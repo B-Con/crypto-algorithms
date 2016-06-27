@@ -36,9 +36,9 @@ void md5_transform(MD5_CTX *ctx, const BYTE data[])
 {
 	WORD a, b, c, d, m[16], i, j;
 
-	// MD5 specifies big endian byte order, but this implementation assumes a little
-	// endian byte order CPU. Reverse all the bytes upon input, and re-reverse them
-	// on output (in md5_final()).
+	/* MD5 specifies big endian byte order, but this implementation assumes a little
+     * endian byte order CPU. Reverse all the bytes upon input, and re-reverse them
+     * on output (in md5_final()). */
 	for (i = 0, j = 0; i < 16; ++i, j += 4)
 		m[i] = (data[j]) + (data[j + 1] << 8) + (data[j + 2] << 16) + (data[j + 3] << 24);
 
@@ -152,7 +152,7 @@ void md5_final(MD5_CTX *ctx, BYTE hash[])
 
 	i = ctx->datalen;
 
-	// Pad whatever data is left in the buffer.
+	/* Pad whatever data is left in the buffer. */
 	if (ctx->datalen < 56) {
 		ctx->data[i++] = 0x80;
 		while (i < 56)
@@ -166,7 +166,7 @@ void md5_final(MD5_CTX *ctx, BYTE hash[])
 		memset(ctx->data, 0, 56);
 	}
 
-	// Append to the padding the total message's length in bits and transform.
+	/* Append to the padding the total message's length in bits and transform. */
 	ctx->bitlen += ctx->datalen * 8;
 	ctx->data[56] = ctx->bitlen;
 	ctx->data[57] = ctx->bitlen >> 8;
@@ -178,8 +178,8 @@ void md5_final(MD5_CTX *ctx, BYTE hash[])
 	ctx->data[63] = ctx->bitlen >> 56;
 	md5_transform(ctx, ctx->data);
 
-	// Since this implementation uses little endian byte ordering and MD uses big endian,
-	// reverse all the bytes when copying the final state to the output hash.
+	/* Since this implementation uses little endian byte ordering and MD uses big endian,
+     * reverse all the bytes when copying the final state to the output hash. */
 	for (i = 0; i < 4; ++i) {
 		hash[i]      = (ctx->state[0] >> (i * 8)) & 0x000000ff;
 		hash[i + 4]  = (ctx->state[1] >> (i * 8)) & 0x000000ff;
