@@ -53,9 +53,26 @@ int sha256_test()
 	return(pass);
 }
 
+void PrintHash_test()
+{
+	BYTE text[] = {"Test"};
+	BYTE hash[SHA256_BLOCK_SIZE];
+	
+	sha256(hash,text,strlen(text));
+	
+	printf("Hash Sha-256\n\n");
+		for(int z=0;z<SHA256_BLOCK_SIZE;z++)
+		{
+			printf("%x",hash[z]);
+		}
+}
+
 int main()
 {
 	printf("SHA-256 tests: %s\n", sha256_test() ? "SUCCEEDED" : "FAILED");
-
+	
+	//Added Test--- Printing Hash
+	PrintHash_test();
+	
 	return(0);
 }
