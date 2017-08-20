@@ -147,3 +147,12 @@ void sha1_final(SHA1_CTX *ctx, BYTE hash[])
 		hash[i + 16] = (ctx->state[4] >> (24 - i * 8)) & 0x000000ff;
 	}
 }
+
+void sha1(BYTE hash[], BYTE data[], size_t len)
+{
+	SHA1_CTX ctx;
+
+	sha1_init(&ctx);
+	sha1_update(&ctx, data, len);
+	sha1_final(&ctx,hash);
+}

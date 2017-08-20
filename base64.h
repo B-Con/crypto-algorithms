@@ -11,9 +11,13 @@
 
 /*************************** HEADER FILES ***************************/
 #include <stddef.h>
+#include <stdint.h>
 
 /**************************** DATA TYPES ****************************/
-typedef unsigned char BYTE;             // 8-bit byte
+#if !defined(CRYPTO_TYPES)
+typedef uint8_t BYTE;            // 8-bit byte
+#define CRYPTO_TYPES
+#endif
 
 /*********************** FUNCTION DECLARATIONS **********************/
 // Returns the size of the output. If called with out = NULL, will just return

@@ -11,9 +11,13 @@
 
 /*************************** HEADER FILES ***************************/
 #include <stddef.h>
+#include <stdint.h>
 
 /**************************** DATA TYPES ****************************/
-typedef unsigned char BYTE;             // 8-bit byte
+#if !defined(CRYPTO_TYPES)
+typedef uint8_t BYTE;            // 8-bit byte
+#define CRYPTO_TYPES
+#endif
 
 /*********************** FUNCTION DECLARATIONS **********************/
 // Input: state - the state used to generate the keystream
@@ -26,5 +30,12 @@ void arcfour_key_setup(BYTE state[], const BYTE key[], int len);
 //        out - Must be allocated to be of at least "len" length
 //        len - number of bytes to generate
 void arcfour_generate_stream(BYTE state[], BYTE out[], size_t len);
+
+#if !defined(ARCFOUR_I)
+# define ARCFOUR_I (256)
+#endif
+#if !defined(ARCFOUR_J)
+# define ARCFOUR_J (257)
+#endif
 
 #endif   // ARCFOUR_H

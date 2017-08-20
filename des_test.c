@@ -14,6 +14,7 @@
 /*************************** HEADER FILES ***************************/
 #include <stdio.h>
 #include <memory.h>
+#include <stdlib.h>
 #include "des.h"
 
 /*********************** FUNCTION DEFINITIONS ***********************/
@@ -41,35 +42,35 @@ int des_test()
 	int pass = 1;
 
 	des_key_setup(key1, schedule, DES_ENCRYPT);
-	des_crypt(pt1, buf, schedule);
+	des_crypt(pt1, buf, (const BYTE (*)[6]) schedule);
 	pass = pass && !memcmp(ct1, buf, DES_BLOCK_SIZE);
 
 	des_key_setup(key1, schedule, DES_DECRYPT);
-	des_crypt(ct1, buf, schedule);
+	des_crypt(ct1, buf, (const BYTE (*)[6]) schedule);
 	pass = pass && !memcmp(pt1, buf, DES_BLOCK_SIZE);
 
 	des_key_setup(key2, schedule, DES_ENCRYPT);
-	des_crypt(pt2, buf, schedule);
+	des_crypt(pt2, buf, (const BYTE (*)[6]) schedule);
 	pass = pass && !memcmp(ct2, buf, DES_BLOCK_SIZE);
 
 	des_key_setup(key2, schedule, DES_DECRYPT);
-	des_crypt(ct2, buf, schedule);
+	des_crypt(ct2, buf, (const BYTE (*)[6]) schedule);
 	pass = pass && !memcmp(pt2, buf, DES_BLOCK_SIZE);
 
 	three_des_key_setup(three_key1, three_schedule, DES_ENCRYPT);
-	three_des_crypt(pt1, buf, three_schedule);
+	three_des_crypt(pt1, buf, (const BYTE (*)[16][6]) three_schedule);
 	pass = pass && !memcmp(ct3, buf, DES_BLOCK_SIZE);
 
 	three_des_key_setup(three_key1, three_schedule, DES_DECRYPT);
-	three_des_crypt(ct3, buf, three_schedule);
+	three_des_crypt(ct3, buf, (const BYTE (*)[16][6]) three_schedule);
 	pass = pass && !memcmp(pt1, buf, DES_BLOCK_SIZE);
 
 	three_des_key_setup(three_key2, three_schedule, DES_ENCRYPT);
-	three_des_crypt(pt3, buf, three_schedule);
+	three_des_crypt(pt3, buf, (const BYTE (*)[16][6]) three_schedule);
 	pass = pass && !memcmp(ct4, buf, DES_BLOCK_SIZE);
 
 	three_des_key_setup(three_key2, three_schedule, DES_DECRYPT);
-	three_des_crypt(ct4, buf, three_schedule);
+	three_des_crypt(ct4, buf, (const BYTE (*)[16][6]) three_schedule);
 	pass = pass && !memcmp(pt3, buf, DES_BLOCK_SIZE);
 
 	return(pass);
@@ -77,7 +78,10 @@ int des_test()
 
 int main()
 {
-	printf("DES test: %s\n", des_test() ? "SUCCEEDED" : "FAILED");
+	int ret;	// 0 ==> test failed, != 0 ==> test suceeded
 
-	return(0);
+	ret = des_test();
+	printf("DES Tests: %s\n", ret ? "SUCCEEDED" : "FAILED");
+
+	exit(ret == 0 ? 1 : 0);
 }

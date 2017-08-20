@@ -14,6 +14,7 @@
 /*************************** HEADER FILES ***************************/
 #include <stdio.h>
 #include <memory.h>
+#include <stdlib.h>
 #include "base64.h"
 
 /*********************** FUNCTION DEFINITIONS ***********************/
@@ -31,16 +32,17 @@ int base64_test()
 	int idx;
 
 	for (idx = 0; idx < 3; idx++) {
-		buf_len = base64_encode(text[idx], buf, strlen(text[idx]), 1);
-		pass = pass && ((buf_len == strlen(code[idx])) &&
-		                 (buf_len == base64_encode(text[idx], NULL, strlen(text[idx]), 1)));
-		pass = pass && !strcmp(code[idx], buf);
+		memset(buf, 0, sizeof(buf));
+		buf_len = base64_encode(text[idx], buf, strlen((const char *)text[idx]), 1);
+		pass = pass && ((buf_len == strlen((const char *)code[idx])) &&
+		                 (buf_len == base64_encode(text[idx], NULL, strlen((const char *)text[idx]), 1)));
+		pass = pass && !strcmp((const char *)code[idx], (const char *)buf);
 
 		memset(buf, 0, sizeof(buf));
-		buf_len = base64_decode(code[idx], buf, strlen(code[idx]));
-		pass = pass && ((buf_len == strlen(text[idx])) &&
-		                (buf_len == base64_decode(code[idx], NULL, strlen(code[idx]))));
-		pass = pass && !strcmp(text[idx], buf);
+		buf_len = base64_decode(code[idx], buf, strlen((const char *)code[idx]));
+		pass = pass && ((buf_len == strlen((const char *)text[idx])) &&
+		                (buf_len == base64_decode(code[idx], NULL, strlen((const char *)code[idx]))));
+		pass = pass && !strcmp((const char *)text[idx], (const char *)buf);
 	}
 
 	return(pass);
@@ -48,7 +50,10 @@ int base64_test()
 
 int main()
 {
-	printf("Base64 tests: %s\n", base64_test() ? "PASSED" : "FAILED");
+	int ret;	// 0 ==> test failed, != 0 ==> test suceeded
 
-	return 0;
+	ret = base64_test();
+	printf("Base64 Tests: %s\n", ret ? "SUCCEEDED" : "FAILED");
+
+	exit(ret == 0 ? 1 : 0);
 }

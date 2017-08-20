@@ -26,17 +26,20 @@ void arcfour_key_setup(BYTE state[], const BYTE key[], int len)
 		state[i] = state[j];
 		state[j] = t;
 	}
+	state[ARCFOUR_I] = 0;
+	state[ARCFOUR_J] = 0;
 }
 
-// This does not hold state between calls. It always generates the
-// stream starting from the first  output byte.
 void arcfour_generate_stream(BYTE state[], BYTE out[], size_t len)
 {
-	int i, j;
+	int i;
+	int j;
 	size_t idx;
 	BYTE t;
 
-	for (idx = 0, i = 0, j = 0; idx < len; ++idx)  {
+	i = state[ARCFOUR_I];
+	j = state[ARCFOUR_J];
+	for (idx = 0; idx < len; ++idx)  {
 		i = (i + 1) % 256;
 		j = (j + state[i]) % 256;
 		t = state[i];
@@ -44,4 +47,6 @@ void arcfour_generate_stream(BYTE state[], BYTE out[], size_t len)
 		state[j] = t;
 		out[idx] = state[(state[i] + state[j]) % 256];
 	}
+	state[ARCFOUR_I] = i;
+	state[ARCFOUR_J] = j;
 }

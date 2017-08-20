@@ -11,12 +11,16 @@
 
 /*************************** HEADER FILES ***************************/
 #include <stddef.h>
+#include <stdint.h>
 
 /****************************** MACROS ******************************/
 #define MD2_BLOCK_SIZE 16
 
 /**************************** DATA TYPES ****************************/
-typedef unsigned char BYTE;             // 8-bit byte
+#if !defined(CRYPTO_TYPES)
+typedef uint8_t BYTE;            // 8-bit byte
+#define CRYPTO_TYPES
+#endif
 
 typedef struct {
    BYTE data[16];
@@ -29,5 +33,6 @@ typedef struct {
 void md2_init(MD2_CTX *ctx);
 void md2_update(MD2_CTX *ctx, const BYTE data[], size_t len);
 void md2_final(MD2_CTX *ctx, BYTE hash[]);   // size of hash must be MD2_BLOCK_SIZE
+void md2(BYTE hash[], BYTE data[], size_t len);
 
 #endif   // MD2_H
