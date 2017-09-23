@@ -187,3 +187,12 @@ void md5_final(MD5_CTX *ctx, BYTE hash[])
 		hash[i + 12] = (ctx->state[3] >> (i * 8)) & 0x000000ff;
 	}
 }
+
+void md5(BYTE hash[], BYTE data[], size_t len)
+{
+	MD5_CTX ctx;
+
+	md5_init(&ctx);
+	md5_update(&ctx, data, len);
+	md5_final(&ctx,hash);
+}

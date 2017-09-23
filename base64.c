@@ -87,7 +87,6 @@ size_t base64_encode(const BYTE in[], BYTE out[], size_t len, int newline_flag)
 
 size_t base64_decode(const BYTE in[], BYTE out[], size_t len)
 {
-	BYTE ch;
 	size_t idx, idx2, blks, blk_ceiling, left_over;
 
 	if (in[len - 1] == '=')

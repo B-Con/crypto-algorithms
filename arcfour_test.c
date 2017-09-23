@@ -14,12 +14,13 @@
 /*************************** HEADER FILES ***************************/
 #include <stdio.h>
 #include <memory.h>
+#include <stdlib.h>
 #include "arcfour.h"
 
 /*********************** FUNCTION DEFINITIONS ***********************/
 int rc4_test()
 {
-	BYTE state[256];
+	BYTE state[256+2];
 	BYTE key[3][10] = {{"Key"}, {"Wiki"}, {"Secret"}};
 	BYTE stream[3][10] = {{0xEB,0x9F,0x77,0x81,0xB7,0x34,0xCA,0x72,0xA7,0x19},
 	                      {0x60,0x44,0xdb,0x6d,0x41,0xb7},
@@ -31,7 +32,7 @@ int rc4_test()
 
 	// Only test the output stream. Note that the state can be reused.
 	for (idx = 0; idx < 3; idx++) {
-		arcfour_key_setup(state, key[idx], strlen(key[idx]));
+		arcfour_key_setup(state, key[idx], strlen((char *)key[idx]));
 		arcfour_generate_stream(state, buf, stream_len[idx]);
 		pass = pass && !memcmp(stream[idx], buf, stream_len[idx]);
 	}
@@ -41,7 +42,10 @@ int rc4_test()
 
 int main()
 {
-	printf("ARCFOUR tests: %s\n", rc4_test() ? "SUCCEEDED" : "FAILED");
+	int ret;	// 0 ==> test failed, != 0 ==> test suceeded
 
-	return(0);
+	ret = rc4_test();
+	printf("ARCFOUR Tests: %s\n", ret ? "SUCCEEDED" : "FAILED");
+
+	exit(ret == 0 ? 1 : 0);
 }
