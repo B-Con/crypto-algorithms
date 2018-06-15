@@ -595,37 +595,37 @@ void AddRoundKey(BYTE state[][4], const WORD w[])
 
 	// memcpy(subkey,&w[idx],4); // Not accurate for big endian machines
 	// Subkey 1
-	subkey[0] = w[0] >> 24;
-	subkey[1] = w[0] >> 16;
-	subkey[2] = w[0] >> 8;
-	subkey[3] = w[0];
+	subkey[0] = ((w[0] >> 24) & 0xFF);
+	subkey[1] = ((w[0] >> 16) & 0xFF);
+	subkey[2] = ((w[0] >> 8) & 0xFF);
+	subkey[3] = ((w[0]) & 0xFF);
 	state[0][0] ^= subkey[0];
 	state[1][0] ^= subkey[1];
 	state[2][0] ^= subkey[2];
 	state[3][0] ^= subkey[3];
 	// Subkey 2
-	subkey[0] = w[1] >> 24;
-	subkey[1] = w[1] >> 16;
-	subkey[2] = w[1] >> 8;
-	subkey[3] = w[1];
+	subkey[0] = ((w[1] >> 24) & 0xFF);
+	subkey[1] = ((w[1] >> 16) & 0xFF);
+	subkey[2] = ((w[1] >> 8) & 0xFF);
+	subkey[3] = ((w[1]) & 0xFF);
 	state[0][1] ^= subkey[0];
 	state[1][1] ^= subkey[1];
 	state[2][1] ^= subkey[2];
 	state[3][1] ^= subkey[3];
 	// Subkey 3
-	subkey[0] = w[2] >> 24;
-	subkey[1] = w[2] >> 16;
-	subkey[2] = w[2] >> 8;
-	subkey[3] = w[2];
+	subkey[0] = ((w[2] >> 24) & 0xFF);
+	subkey[1] = ((w[2] >> 16) & 0xFF);
+	subkey[2] = ((w[2] >> 8) & 0xFF);
+	subkey[3] = ((w[2]) & 0xFF);
 	state[0][2] ^= subkey[0];
 	state[1][2] ^= subkey[1];
 	state[2][2] ^= subkey[2];
 	state[3][2] ^= subkey[3];
 	// Subkey 4
-	subkey[0] = w[3] >> 24;
-	subkey[1] = w[3] >> 16;
-	subkey[2] = w[3] >> 8;
-	subkey[3] = w[3];
+	subkey[0] = ((w[3] >> 24) & 0xFF);
+	subkey[1] = ((w[3] >> 16) & 0xFF);
+	subkey[2] = ((w[3] >> 8) & 0xFF);
+	subkey[3] = ((w[3]) & 0xFF);
 	state[0][3] ^= subkey[0];
 	state[1][3] ^= subkey[1];
 	state[2][3] ^= subkey[2];
