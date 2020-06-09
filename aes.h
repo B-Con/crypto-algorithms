@@ -48,6 +48,13 @@ int aes_encrypt_cbc(const BYTE in[],          // Plaintext
                     int keysize,              // Bit length of the key, 128, 192, or 256
                     const BYTE iv[]);         // IV, must be AES_BLOCK_SIZE bytes long
 
+int aes_decrypt_cbc(const BYTE in[],          // Ciphertext
+                    size_t in_len,            // Must be a multiple of AES_BLOCK_SIZE
+                    BYTE out[],               // Plaintext, same length as plaintext
+                    const WORD key[],         // From the key setup
+                    int keysize,              // Bit length of the key, 128, 192, or 256
+                    const BYTE iv[]);         // IV, must be AES_BLOCK_SIZE bytes long
+
 // Only output the CBC-MAC of the input.
 int aes_encrypt_cbc_mac(const BYTE in[],      // plaintext
                         size_t in_len,        // Must be a multiple of AES_BLOCK_SIZE
