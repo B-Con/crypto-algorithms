@@ -18,7 +18,7 @@ typedef unsigned char BYTE;             // 8-bit byte
 /*********************** FUNCTION DECLARATIONS **********************/
 // Input: state - the state used to generate the keystream
 //        key - Key to use to initialize the state
-//        len - length of key in bytes (valid lenth is 1 to 256)
+//        len - length of key in bytes (valid length is 1 to 256)
 void arcfour_key_setup(BYTE state[], const BYTE key[], int len);
 
 // Pseudo-Random Generator Algorithm
